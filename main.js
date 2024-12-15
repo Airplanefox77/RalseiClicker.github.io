@@ -79,10 +79,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateMoneyDisplay() {
         const isMobile = window.innerWidth < 600;
-        moneyCounter.textContent = isMobile ? `Money: $${money.toLocaleString()}` : `Money: $${formatNumber(money)}`;
+        moneyCounter.textContent = `Money: $${formatNumber(money)}`;
         actualMoneyCounter.textContent = `$${money.toLocaleString()}`;
         const clickerName = localStorage.getItem("clickerName") || "Your Clicker";
-        document.title = isMobile ? `$${formatNumber(money)} - ${clickerName}'s Ralsei Clicker` : `${clickerName}'s Ralsei Clicker`;
+        document.title = `$${formatNumber(money)} - ${clickerName}'s Ralsei Clicker`;
 
         // Check for achievements
         checkAchievements(money, autoClickers);
