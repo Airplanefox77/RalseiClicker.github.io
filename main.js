@@ -1,9 +1,14 @@
 document.addEventListener("DOMContentLoaded", function() {
     const clickableBox = document.querySelector(".clickable-box");
     const moneyCounter = document.querySelector(".money-counter");
-    const autoClickerButton = document.getElementById("auto-clicker-button");
-    const autoClickerButton2 = document.getElementById("auto-clicker-button-2");
-    const autoClickerButton3 = document.getElementById("auto-clicker-button-3");
+    const actualMoneyCounter = document.getElementById("actual-money");
+    const autoClickerButtons = [
+        document.getElementById("auto-clicker-button"),
+        document.getElementById("auto-clicker-button-2"),
+        document.getElementById("auto-clicker-button-3"),
+        document.getElementById("auto-clicker-button-4")
+    ];
+    const autoClickerNames = ["Auto Clicker", "Mercedes Lot", "Mercedes Parking Garage", "Luxury Garage"];
     const autoClickerCount = document.getElementById("auto-clicker-count");
     const autoClickerImage = document.getElementById("auto-clicker-image");
 
@@ -12,13 +17,15 @@ document.addEventListener("DOMContentLoaded", function() {
     let autoClickerCosts = {
         button1: 50,
         button2: 200,
-        button3: 800
+        button3: 800,
+        button4: 3200
     };
 
     loadGameState();
 
     // Update the UI with saved values
     moneyCounter.textContent = `Money: $${formatNumber(money)}`;
+    actualMoneyCounter.textContent = `$${money.toLocaleString()}`;
     autoClickerImage.style.display = autoClickers > 0 ? 'block' : 'none';
     autoClickerCount.style.display = autoClickers > 0 ? 'inline' : 'none';
     updateButtonCosts();
@@ -30,16 +37,10 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem("money", money);
     });
 
-    autoClickerButton.addEventListener("click", function() {
-        buyAutoClicker("button1", autoClickerButton);
-    });
-
-    autoClickerButton2.addEventListener("click", function() {
-        buyAutoClicker("button2", autoClickerButton2);
-    });
-
-    autoClickerButton3.addEventListener("click", function() {
-        buyAutoClicker("button3", autoClickerButton3);
+    autoClickerButtons.forEach((button, index) => {
+        button.addEventListener("click", function() {
+            buyAutoClicker(`button${index + 1}`, button);
+        });
     });
 
     function buyAutoClicker(button, buttonElement) {
@@ -52,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
             autoClickerCount.textContent = `x${autoClickers}`;
             autoClickerImage.style.display = 'block';
             autoClickerCount.style.display = 'inline';
-            updateButtonCosts(); // Ensure the button cost is updated dynamically
+            updateButtonCosts();
             localStorage.setItem("money", money);
             localStorage.setItem("autoClickers", autoClickers);
             localStorage.setItem("autoClickerCosts", JSON.stringify(autoClickerCosts));
@@ -71,21 +72,32 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function updateButtonCosts() {
-        autoClickerButton.textContent = `Auto Clicker (-$${formatNumber(autoClickerCosts.button1)})`;
-        autoClickerButton2.textContent = `Mercedes Lot (-$${formatNumber(autoClickerCosts.button2)})`;
-        autoClickerButton3.textContent = `Mercedes Parking Garage (-$${formatNumber(autoClickerCosts.button3)})`;
+        autoClickerButtons.forEach((button, index) => {
+            button.textContent = `${autoClickerNames[index]} (-$${formatNumber(autoClickerCosts[`button${index + 1}`])})`;
+        });
     }
 
     function updateMoneyDisplay() {
-        moneyCounter.textContent = `Money: $${formatNumber(money)}`;
+        const isMobile = window.innerWidth < 600;
+        moneyCounter.textContent = isMobile ? `Money: $${money.toLocaleString()}` : `Money: $${formatNumber(money)}`;
+        actualMoneyCounter.textContent = `$${money.toLocaleString()}`;
         const clickerName = localStorage.getItem("clickerName") || "Your Clicker";
-        document.title = `$${formatNumber(money)} - ${clickerName}'s Ralsei Clicker`;
+        document.title = isMobile ? `$${formatNumber(money)} - ${clickerName}'s Ralsei Clicker` : `${clickerName}'s Ralsei Clicker`;
 
         // Check for achievements
         checkAchievements(money, autoClickers);
     }
 
     function formatNumber(num) {
+        if (num >= 1e9) {
+            return (num / 1e9).toFixed(1) + " Billion";
+        }
+        if (num >= 1e6) {
+            return (num / 1e6).toFixed(1) + " Million";
+        }
+        if (num >= 1e3) {
+            return (num / 1e3).toFixed(1) + " Thousand";
+        }
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 
@@ -107,6 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
         // Update display
         moneyCounter.textContent = `Money: $${formatNumber(money)}`;
+        actualMoneyCounter.textContent = `$${money.toLocaleString()}`;
         autoClickerImage.style.display = autoClickers > 0 ? 'block' : 'none';
         autoClickerCount.style.display = autoClickers > 0 ? 'inline' : 'none';
         autoClickerCount.textContent = `x${autoClickers}`;

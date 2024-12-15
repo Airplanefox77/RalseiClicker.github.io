@@ -11,6 +11,7 @@ body {
     height: 100vh;
     background-color: #0c0125;
     font-family: Arial, sans-serif;
+    overflow: hidden; /* Hide scrollbars */
 }
 
 .image-container {
@@ -23,6 +24,8 @@ body {
     width: 100%;
     height: 100%;
     display: block;
+    user-select: none; /* Make the image unselectable */
+    transition: opacity 0.5s; /* Smooth transition for image opacity */
 }
 
 .overlay-text {
@@ -34,6 +37,7 @@ body {
     font-size: 2.5vw; /* Scale text with viewport width */
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
     pointer-events: none;
+    opacity: 1; /* Remove the animation */
 }
 
 .clickable-box {
@@ -45,49 +49,71 @@ body {
     background-color: rgba(255, 255, 255, 0); /* Fully transparent background */
     border: 2px solid rgba(255, 255, 255, 0); /* Fully transparent border */
     cursor: pointer;
+    transition: transform 0.1s; /* Smooth transition for transform */
+}
+
+.clickable-box:active {
+    transform: scale(0.98); /* Click animation */
 }
 
 .shop-box {
     position: absolute;
     top: 55%;
-    left: 10%;
-    transform: translate(-50%, -50%);
+    left: 5%; /* Position to the left of the screen */
+    transform: translateY(-50%);
     width: 15vw; /* Scale with viewport width */
     height: 45vw; /* Scale with viewport width */
-    background-color: rgb(0, 0, 0); /* Semi-transparent black background */
+    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
     border: 0.5vw solid rgb(255, 217, 0); /* Yellow border, scaled with viewport width */
     color: black;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    align-items: center; /* Center elements horizontally */
     font-size: 1.2vw; /* Scale text with viewport width */
+    overflow-y: auto; /* Enable scrolling */
+    scrollbar-width: thin; /* Thin scrollbar for Firefox */
+    scrollbar-color: #ffcc00 #000; /* Scrollbar colors for Firefox */
+}
+
+.shop-box::-webkit-scrollbar {
+    width: 8px; /* Thin scrollbar for WebKit browsers */
+}
+
+.shop-box::-webkit-scrollbar-thumb {
+    background-color: #ffcc00; /* Yellow scrollbar thumb */
+    border-radius: 4px; /* Rounded scrollbar thumb */
+}
+
+.shop-box::-webkit-scrollbar-track {
+    background-color: #000; /* Black scrollbar track */
 }
 
 .shop-box .shop-name {
-    position: absolute;
-    top: 10px; /* Adjust this value as needed */
-    left: 50%;
-    transform: translateX(-50%);
-    color: white;
-    font-size: 1.5vw; /* Scale text with viewport width */
+    font-size: 1.3vw; /* Slightly scaled-down text */
     text-align: center;
+    color: white;
+    margin-bottom: 1vw; /* Space below the shop name */
     user-select: none; /* Make the text unselectable */
+    opacity: 0;
+    animation: fadeIn 1s forwards; /* Smooth fade-in effect */
 }
 
 button {
-    width: 85%; /* Adjust button width to fit within the shop box */
-    height: auto;
-    padding: 1vw 0; /* Scale padding with viewport width */
+    width: 83%; /* Adjust button width to fit within the shop box */
+    height: 3.4vw; /* Slimmer height */
+    padding: 5px 0; /* Smaller padding */
     background-color: yellow;
     border: 0.2vw solid black; /* Scale border with viewport width */
     color: black;
     font-size: 1em; /* Relative to the shop box font-size */
     cursor: pointer;
-    margin: 1.5vw 0; /* Scale margin with viewport width */
+    margin: 0.5vw 0; /* Smaller margin for buttons */
     border-radius: 5px; /* Rounded corners */
-    transition: transform 0.1s; /* Add click animation */
-    text-align: center; /* Ensure text is centered */
+    transition: transform 0.2s, background-color 0.2s; /* Smooth transitions for transform and background color */
+}
+
+button:hover {
+    background-color: #ffd700; /* Slightly darker yellow on hover */
 }
 
 button:active {
@@ -97,12 +123,12 @@ button:active {
 .auto-clicker-info {
     display: flex;
     align-items: center;
-    margin-top: 20px;
+    margin-top: 10px; /* Adjusted margin-top for spacing */
 }
 
 .auto-clicker-info img {
     width: 4vw; /* Scale with viewport width */
-    height: 4vw; /* Scale with viewport width */
+    height: 6vw; /* Scale with viewport width */
     margin-right: 1vw; /* Scale with viewport width */
 }
 
@@ -118,6 +144,19 @@ button:active {
     color: white;
     font-size: 2vw; /* Scale text with viewport width */
     z-index: 1;
+    opacity: 0;
+    animation: fadeIn 1s forwards; /* Smooth fade-in effect */
+}
+
+.actual-money {
+    position: absolute;
+    top: 3vw; /* Adjust as needed */
+    left: 1vw; /* Scale with viewport width */
+    color: white;
+    font-size: 1.5vw; /* Scale text with viewport width */
+    z-index: 1;
+    opacity: 0;
+    animation: fadeIn 1s forwards; /* Smooth fade-in effect */
 }
 
 .clicker-name {
@@ -127,13 +166,15 @@ button:active {
     color: white;
     font-size: 1.5vw; /* Scale text with viewport width */
     z-index: 1;
+    opacity: 0;
+    animation: fadeIn 1s forwards; /* Smooth fade-in effect */
 }
 
 .settings-tab {
     display: none;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 30%;
+    left: 35%;
     transform: translate(-50%, -50%);
     width: 25vw; /* Scale with viewport width */
     padding: 2vw; /* Scale with viewport width */
@@ -142,6 +183,16 @@ button:active {
     border-radius: 1vw; /* Scale with viewport width */
     color: white;
     z-index: 1000;
+    transition: opacity 0.5s, transform 0.5s; /* Smooth transitions for opacity and transform */
+    animation: fadeInSettings 0.5s forwards; /* Smooth fade-in effect for settings tab */
+}
+
+.settings-tab.opening {
+    animation: fadeInSettings 0.5s forwards; /* Smooth fade-in effect for settings tab */
+}
+
+.settings-tab.closing {
+    animation: fadeOutSettings 0.5s forwards; /* Smooth fade-out effect for settings tab */
 }
 
 .settings-tab input {
@@ -153,11 +204,21 @@ button:active {
     border: 0.2vw solid #ffcc00; /* Scale border with viewport width */
     background-color: #1a1a1a;
     color: white;
+    transition: background-color 0.2s; /* Smooth transition for background color */
+}
+
+.settings-tab input:focus {
+    background-color: #333; /* Darker background on focus */
 }
 
 .settings-tab button {
     width: 100%;
     margin: 1vw 0; /* Scale with viewport width */
+    transition: transform 0.2s; /* Smooth transition for transform */
+}
+
+.settings-tab button:active {
+    transform: scale(0.95); /* Click animation */
 }
 
 .achievements-container {
@@ -200,4 +261,14 @@ button:active {
 @keyframes fadeOut {
     from { opacity: 1; transform: translateY(0); }
     to { opacity: 0; transform: translateY(1vw); } /* Scale with viewport width */
+}
+
+@keyframes fadeInSettings {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeOutSettings {
+    from { opacity: 1; transform: scale(1); }
+    to { opacity: 0; transform: scale(0.95); }
 }
