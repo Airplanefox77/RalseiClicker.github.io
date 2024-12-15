@@ -19,10 +19,16 @@ document.addEventListener("DOMContentLoaded", function() {
 
     settingsButton.addEventListener("click", function() {
         settingsTab.style.display = 'block';
+        settingsTab.classList.add("opening");
+        settingsTab.classList.remove("closing");
     });
 
     closeSettingsButton.addEventListener("click", function() {
-        settingsTab.style.display = 'none';
+        settingsTab.classList.add("closing");
+        settingsTab.classList.remove("opening");
+        setTimeout(() => {
+            settingsTab.style.display = 'none';
+        }, 500); // Match the fade-out duration
     });
 
     resetButton.addEventListener("click", function() {
@@ -30,10 +36,16 @@ document.addEventListener("DOMContentLoaded", function() {
             // Clear the auto clicker interval
             clearInterval(window.autoClickerIntervalId);
 
-            // Clear localStorage and reset money
+            // Clear localStorage and reset game state
             localStorage.clear();
             money = 0;
             autoClickers = 0;
+            autoClickerCosts = {
+                button1: 50,
+                button2: 200,
+                button3: 800,
+                button4: 3200
+            };
             updateMoneyDisplay();
             location.reload();
         }
@@ -73,21 +85,24 @@ document.addEventListener("DOMContentLoaded", function() {
         let autoClickerCosts = JSON.parse(localStorage.getItem("autoClickerCosts")) || {
             button1: 50,
             button2: 200,
-            button3: 800
+            button3: 800,
+            button4: 3200
         };
 
         if (hardMode) {
             autoClickerCosts = {
                 button1: autoClickerCosts.button1 * 4,
                 button2: autoClickerCosts.button2 * 4,
-                button3: autoClickerCosts.button3 * 4
+                button3: autoClickerCosts.button3 * 4,
+                button4: autoClickerCosts.button4 * 4
             };
             localStorage.setItem("hardModeCosts", JSON.stringify(autoClickerCosts));
         } else {
             autoClickerCosts = {
                 button1: 50,
                 button2: 200,
-                button3: 800
+                button3: 800,
+                button4: 3200
             };
         }
 
@@ -102,8 +117,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     function updateMoneyDisplay() {
         const moneyCounter = document.querySelector(".money-counter");
+        const actualMoneyCounter = document.getElementById("actual-money");
         const money = parseInt(localStorage.getItem("money")) || 0;
         moneyCounter.textContent = `Money: $${formatNumber(money)}`;
+        actualMoneyCounter.textContent = `$${money.toLocaleString()}`;
+        const clickerName = localStorage.getItem("clickerName") || "Your Clicker";
         document.title = `$${formatNumber(money)} - ${clickerName}'s Ralsei Clicker`;
     }
 
@@ -111,14 +129,17 @@ document.addEventListener("DOMContentLoaded", function() {
         const autoClickerButton = document.getElementById("auto-clicker-button");
         const autoClickerButton2 = document.getElementById("auto-clicker-button-2");
         const autoClickerButton3 = document.getElementById("auto-clicker-button-3");
+        const autoClickerButton4 = document.getElementById("auto-clicker-button-4");
 
         autoClickerButton.textContent = `Auto Clicker (-$${formatNumber(autoClickerCosts.button1)})`;
         autoClickerButton2.textContent = `Mercedes Lot (-$${formatNumber(autoClickerCosts.button2)})`;
         autoClickerButton3.textContent = `Mercedes Parking Garage (-$${formatNumber(autoClickerCosts.button3)})`;
+        autoClickerButton4.textContent = `Luxury Garage (-$${formatNumber(autoClickerCosts.button4)})`;
     }
 
     function formatNumber(num) {
         return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 });
+
 
