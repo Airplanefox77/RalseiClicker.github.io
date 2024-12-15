@@ -1,0 +1,203 @@
+:root {
+    --x-pos: 72%;
+    --y-pos: 30%;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #0c0125;
+    font-family: Arial, sans-serif;
+}
+
+.image-container {
+    position: relative;
+    width: 80vw; /* Use viewport width */
+    height: 45vw; /* Maintain 16:9 aspect ratio with viewport width */
+}
+
+.image-container img {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.overlay-text {
+    position: absolute;
+    top: var(--y-pos);
+    left: var(--x-pos);
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 2.5vw; /* Scale text with viewport width */
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+    pointer-events: none;
+}
+
+.clickable-box {
+    position: absolute;
+    top: 40%;
+    left: 47%;
+    width: 50%;
+    height: 30%;
+    background-color: rgba(255, 255, 255, 0); /* Fully transparent background */
+    border: 2px solid rgba(255, 255, 255, 0); /* Fully transparent border */
+    cursor: pointer;
+}
+
+.shop-box {
+    position: absolute;
+    top: 55%;
+    left: 10%;
+    transform: translate(-50%, -50%);
+    width: 15vw; /* Scale with viewport width */
+    height: 45vw; /* Scale with viewport width */
+    background-color: rgb(0, 0, 0); /* Semi-transparent black background */
+    border: 0.5vw solid rgb(255, 217, 0); /* Yellow border, scaled with viewport width */
+    color: black;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2vw; /* Scale text with viewport width */
+}
+
+.shop-box .shop-name {
+    position: absolute;
+    top: 10px; /* Adjust this value as needed */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1.5vw; /* Scale text with viewport width */
+    text-align: center;
+    user-select: none; /* Make the text unselectable */
+}
+
+button {
+    width: 85%; /* Adjust button width to fit within the shop box */
+    height: auto;
+    padding: 1vw 0; /* Scale padding with viewport width */
+    background-color: yellow;
+    border: 0.2vw solid black; /* Scale border with viewport width */
+    color: black;
+    font-size: 1em; /* Relative to the shop box font-size */
+    cursor: pointer;
+    margin: 1.5vw 0; /* Scale margin with viewport width */
+    border-radius: 5px; /* Rounded corners */
+    transition: transform 0.1s; /* Add click animation */
+    text-align: center; /* Ensure text is centered */
+}
+
+button:active {
+    transform: scale(0.95); /* Click animation */
+}
+
+.auto-clicker-info {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.auto-clicker-info img {
+    width: 4vw; /* Scale with viewport width */
+    height: 4vw; /* Scale with viewport width */
+    margin-right: 1vw; /* Scale with viewport width */
+}
+
+.auto-clicker-info span {
+    font-size: 1em; /* Relative to the shop box font-size */
+    color: white;
+}
+
+.money-counter {
+    position: absolute;
+    top: 1vw; /* Scale with viewport width */
+    left: 1vw; /* Scale with viewport width */
+    color: white;
+    font-size: 2vw; /* Scale text with viewport width */
+    z-index: 1;
+}
+
+.clicker-name {
+    position: absolute;
+    top: 5vw; /* Scale with viewport width */
+    left: 6vw; /* Scale with viewport width */
+    color: white;
+    font-size: 1.5vw; /* Scale text with viewport width */
+    z-index: 1;
+}
+
+.settings-tab {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 25vw; /* Scale with viewport width */
+    padding: 2vw; /* Scale with viewport width */
+    background-color: #000;
+    border: 0.2vw solid #ffcc00; /* Scale border with viewport width */
+    border-radius: 1vw; /* Scale with viewport width */
+    color: white;
+    z-index: 1000;
+}
+
+.settings-tab input {
+    width: calc(100% - 2vw); /* Scale with viewport width */
+    margin: 1vw 0; /* Scale with viewport width */
+    padding: 1vw; /* Scale with viewport width */
+    font-size: 1.2vw; /* Scale text with viewport width */
+    border-radius: 0.5vw; /* Scale with viewport width */
+    border: 0.2vw solid #ffcc00; /* Scale border with viewport width */
+    background-color: #1a1a1a;
+    color: white;
+}
+
+.settings-tab button {
+    width: 100%;
+    margin: 1vw 0; /* Scale with viewport width */
+}
+
+.achievements-container {
+    position: fixed;
+    bottom: 1vw; /* Scale with viewport width */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 1vw; /* Scale with viewport width */
+}
+
+.achievement-notification {
+    display: flex;
+    align-items: center;
+    background-color: #141313;
+    color: white;
+    padding: 1vw; /* Scale with viewport width */
+    border-radius: 0.5vw; /* Scale with viewport width */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+}
+
+.achievement-notification .achievement-image img {
+    width: 4vw; /* Scale with viewport width */
+    height: 4vw; /* Scale with viewport width */
+    margin-right: 1vw; /* Scale with viewport width */
+}
+
+.achievement-notification .achievement-text {
+    flex-grow: 1;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(1vw); } /* Scale with viewport width */
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(1vw); } /* Scale with viewport width */
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ralsei Clicker</title>
+    <link rel="icon" href="Ralseiclickerimage.ico" type="image/x-icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="money-counter">Money: $0</div>
+    <div class="image-container">
+        <img src="https://i.ytimg.com/vi/eZtYA6b1sUY/maxresdefault.jpg" alt="Image">
+        <div class="overlay-text">Ralsei Clicker</div>
+        <div class="clickable-box"></div>
+    </div>
+    <div class="shop-box">
+        <div class="shop-name"></div> <!-- Clicker name display within shop box -->
+        <button id="auto-clicker-button">Auto Clicker (-$50)</button>
+        <button id="auto-clicker-button-2">Mercedes Lot (-$200)</button>
+        <button id="auto-clicker-button-3">Mercedes Parking Garage (-$800)</button>
+        <div class="auto-clicker-info">
+            <img src="https://images.vexels.com/media/users/3/131771/isolated/svg/052dd0c023d9db3d5244875791c71c54.svg" alt="Auto Clicker Image" id="auto-clicker-image">
+            <span id="auto-clicker-count">x0</span>
+        </div>
+        <button id="settings-button">Settings</button>
+    </div>
+    <div id="settings-tab" class="settings-tab">
+        <button id="reset-button">Reset Game</button>
+        <button id="hard-mode-button">Hard Mode</button>
+        <input type="text" id="name-input" placeholder="Enter clicker name">
+        <button id="name-button">Customize Name</button>
+        <button id="close-settings-button">Close Settings</button>
+    </div>
+    <script src="main.js"></script> <!-- Add the main.js script -->
+    <script src="settings.js"></script> <!-- Add the settings.js script -->
+    <script src="achievements.js"></script> <!-- Add the achievements.js script -->
+</body>
+</html>
+
